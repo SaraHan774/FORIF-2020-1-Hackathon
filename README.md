@@ -29,6 +29,7 @@
 
 ### UI Flow 
 
+![UI-PICTURE](Screenshot_20200714-163837_Squid.jpg)
   
 ### Data Modeling 
 * 유저가 포스트를 작성하면 아래와 같이 데이터가 저장된다. 
