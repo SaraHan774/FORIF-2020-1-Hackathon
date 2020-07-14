@@ -9,6 +9,7 @@ import com.forif.honsullife.R;
 public class LoginActivity extends AppCompatActivity {
 
     /* 구글 로그인 구현하기 */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
