@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "96870614531",
+    "firebase_url": "https://honsoollife-88826.firebaseio.com",
+    "project_id": "honsoollife-88826",
+    "storage_bucket": "honsoollife-88826.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:96870614531:android:6e99384821d93bf53ab036",
+        "android_client_info": {
+          "package_name": "com.forif.honsullife"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "96870614531-pnh8spck5a12dmp4vk8ggn6uufnimg7e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.forif.honsullife",
+            "certificate_hash": "0deae5e04a65a2710a4e2f227f5f3448d9d70ec8"
+          }
+        },
+        {
+          "client_id": "96870614531-1fbe125jie37k3q3opetjgu3cqsn23e0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpKkJNHsFvbiLFflCzTO23H44NIo0B1lw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "96870614531-1fbe125jie37k3q3opetjgu3cqsn23e0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
