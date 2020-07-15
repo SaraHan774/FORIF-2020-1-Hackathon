@@ -1,9 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.PublishPostActivity">
+    tools:context=".ui.PublishPostActivity"
+    >
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <View
+        android:id="@+id/background_view_publish"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/gl_photo_top"
+        android:layout_width="0dp"
+        android:layout_height="0dp"/>
+
+<!--    TODO 제목 추후에 수정할 것. -->
+    <TextView
+        android:id="@+id/label_publish_title"
+        android:text="혼술팁 공유하기!🍹"
+        android:lineSpacingMultiplier="1.2"
+        android:textColor="@android:color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/gl_photo_top"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_photo_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.15" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_photo_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+
+<!--    TODO 이미지 가져오고 Firebase 로 업로드하는 처리 필요 -->
+    <ImageView
+        android:id="@+id/img_publish_post_image"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/gl_photo_top"
+        app:layout_constraintBottom_toTopOf="@id/gl_photo_bottom"
+        android:background="@color/colorPrimary"
+        tools:src="@tools:sample/backgrounds/scenic"
+        android:layout_width="0dp"
+        android:layout_height="0dp"/>
+
+
+
+    <EditText
+        android:id="@+id/et_publish_post_title"
+        app:layout_constraintTop_toTopOf="@id/gl_photo_bottom"
+        app:layout_constraintBottom_toTopOf="@id/gl_image_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:hint="멋진 제목을 지어주세요."
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:inputType="text"
+        android:layout_width="0dp"
+        android:layout_height="0dp"/>
+
+    <!-- TODO EditText 를 위한 박스 drawable 만들기 -->
+    <EditText
+        android:id="@+id/et_publish_post_content"
+        android:maxLines="4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/gl_image_title"
+        app:layout_constraintBottom_toTopOf="@id/gl_btn"
+        android:hint="200글자 내외로 작성해주세요."
+        android:inputType="textMultiLine"
+        android:gravity="start|top"
+        android:layout_margin="16dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.86" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_image_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent=".6" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+<!--    앱바의 메뉴를 클릭해서 사진 선택 혹은 촬영하기 -->
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/publish_bottom_app_bar"
+        android:layout_gravity="bottom"
+        app:menu="@menu/publish_bottom_menu"
+        app:fabAlignmentMode="end"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+<!--  사진 촬영 -> 저장 -> 불러오기
+ 혹은 이미 촬영된 이미지 불러오기 -->
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_publish_post"
+        app:layout_anchor="@id/publish_bottom_app_bar"
+        android:src="@drawable/ic_baseline_publish_24"
+        android:backgroundTint="@color/colorPrimary"
+        app:backgroundTint="@color/colorPrimary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

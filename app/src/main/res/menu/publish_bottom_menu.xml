@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_take_photo"
+        android:icon="@drawable/ic_baseline_camera_enhance_24"
+        android:title="사진촬영"
+        app:showAsAction="ifRoom"
+        />
+
+    <item
+        android:id="@+id/menu_select_image"
+        android:icon="@drawable/ic_baseline_image_24"
+        android:title="사진선택"
+        app:showAsAction="ifRoom"
+        />
+</menu>
