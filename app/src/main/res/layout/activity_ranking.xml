@@ -6,4 +6,61 @@
     android:layout_height="match_parent"
     tools:context=".ui.RankingActivity">
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.15" />
+
+
+    <View
+        android:id="@+id/background"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/gl_top"
+        android:background="@color/colorPrimaryDark"
+        android:layout_width="0dp"
+        android:layout_height="0dp"/>
+
+    <TextView
+        android:id="@+id/label_ranking_title"
+        android:textColor="@android:color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/gl_top"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="랭킹을 확인해보세요!🍾"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/rank_view_pager"
+        app:layout_constraintTop_toBottomOf="@id/gl_top"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/gl_center_h"
+        android:layout_width="0dp"
+        android:layout_height="0dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_ranking"
+        app:layout_constraintTop_toBottomOf="@id/gl_center_h"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:listitem="@layout/ranking_view_holder"
+        android:layout_width="0dp"
+        android:layout_height="0dp"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_center_h"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent=".5" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
