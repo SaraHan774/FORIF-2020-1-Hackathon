@@ -76,7 +76,10 @@
         android:hint="멋진 제목을 지어주세요."
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
         android:inputType="text"
+        android:background="@drawable/edit_text"
+        android:padding="16dp"
         android:layout_width="0dp"
         android:layout_height="0dp"/>
 
@@ -90,8 +93,10 @@
         app:layout_constraintBottom_toTopOf="@id/gl_btn"
         android:hint="200글자 내외로 작성해주세요."
         android:inputType="textMultiLine"
+        android:background="@drawable/edit_text"
         android:gravity="start|top"
         android:layout_margin="16dp"
+        android:padding="16dp"
         android:layout_width="0dp"
         android:layout_height="0dp"/>
 
