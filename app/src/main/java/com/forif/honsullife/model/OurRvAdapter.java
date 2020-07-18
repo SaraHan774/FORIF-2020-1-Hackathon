@@ -1,6 +1,7 @@
 package com.forif.honsullife.model;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.forif.honsullife.R;
+import com.forif.honsullife.ui.PostDetailActivity;
+import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
+
+import static com.forif.honsullife.ui.MainActivity.CURRENT_POST;
 
 public class OurRvAdapter extends RecyclerView.Adapter<OurRvAdapter.OurViewHolder>{
 
@@ -51,6 +56,11 @@ public class OurRvAdapter extends RecyclerView.Adapter<OurRvAdapter.OurViewHolde
         if(!post.getPostName().isEmpty()){
             holder.tvOurTitle.setText(post.getPostName());
         }
+        holder.ourTeamPostCard.setOnClickListener(v -> {
+            Intent intent = new Intent(context, PostDetailActivity.class);
+            intent.putExtra(CURRENT_POST, post);
+            context.startActivity(intent);
+        });
     }
 
     @Override
@@ -63,11 +73,13 @@ public class OurRvAdapter extends RecyclerView.Adapter<OurRvAdapter.OurViewHolde
 
         TextView tvOurTitle;
         ImageView ourImage;
+        MaterialCardView ourTeamPostCard;
 
         public OurViewHolder(@NonNull View itemView) {
             super(itemView);
             tvOurTitle = itemView.findViewById(R.id.tv_our_team_post_title);
             ourImage = itemView.findViewById(R.id.our_team_image);
+            ourTeamPostCard = itemView.findViewById(R.id.our_team_post_card);
         }
     }
 }

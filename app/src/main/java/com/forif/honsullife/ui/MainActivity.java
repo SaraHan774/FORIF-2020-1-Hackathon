@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements OtherRvAdapter.On
     * */
 
     private final static int POST = 1000;
-    private final static String CURRENT_POST = "curpost";
+    public final static String CURRENT_POST = "curpost";
 
     private FloatingActionButton fabNavigateToPublish;
     private RecyclerView othersRecyclerView;
