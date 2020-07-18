@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,7 +19,7 @@ import com.bumptech.glide.Glide;
 import com.forif.honsullife.R;
 import com.forif.honsullife.auth.Authentication;
 import com.forif.honsullife.model.User;
-import com.forif.honsullife.model.RvAdapter;
+import com.forif.honsullife.model.OtherRvAdapter;
 import com.forif.honsullife.model.Post;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
@@ -33,7 +32,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements RvAdapter.OnItemClickListener {
+public class MainActivity extends AppCompatActivity implements OtherRvAdapter.OnItemClickListener {
 
 
     private static final String TAG = "MainActivity";
@@ -56,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements RvAdapter.OnItemC
     private ValueEventListener mValueListener;
 
     //RV
-    private RvAdapter othersAdapter;
+    private OtherRvAdapter othersAdapter;
     private List<Post> mPosts;
 
     @Override
@@ -120,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements RvAdapter.OnItemC
         othersRecyclerView.setHasFixedSize(true);
         othersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        othersAdapter = new RvAdapter(this,mPosts);
+        othersAdapter = new OtherRvAdapter(this,mPosts);
         othersAdapter.setOnItemClickListener(this);
         othersRecyclerView.setAdapter(othersAdapter);
 
