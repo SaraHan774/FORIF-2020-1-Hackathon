@@ -42,11 +42,8 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                createSignInIntent();
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
+                createSignInIntent();
             }
-
         });
     }
 
@@ -73,12 +70,14 @@ public class LoginActivity extends AppCompatActivity {
 
             if(resultCode == RESULT_OK){
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
                 Log.d(TAG, "onActivityResult: "
                 + user.getDisplayName() + "\n"
                 + user.getEmail() + "\n"
                 + user.getPhotoUrl());
 
-                Authentication authentication = new Authentication(this);
+                Authentication authentication = Authentication.getInstance();
+                authentication.setActivity(this);
 
                 if(user.getPhotoUrl() != null) {
                     authentication.saveUserInfo(
@@ -92,8 +91,9 @@ public class LoginActivity extends AppCompatActivity {
                             user.getEmail()
                     );
                 }
-                //TODO 팀 선택 화면으로 넘어간다. 우선은 토스트 띄우기
-                Toast.makeText(this, "Welcome! " + user.getDisplayName(), Toast.LENGTH_SHORT);
+                Intent intent = new Intent(LoginActivity.this, SelectTeamActivity.class);
+                startActivity(intent);
+                finish();
             }else{
                 //failed
                 Log.d(TAG, "onActivityResult: " + response.getError().getErrorCode());
