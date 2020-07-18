@@ -12,13 +12,23 @@ import android.widget.Toast;
 
 import com.forif.honsullife.R;
 import com.forif.honsullife.auth.Authentication;
+import com.forif.honsullife.model.Ranking;
+import com.forif.honsullife.model.TeamBeer;
 import com.forif.honsullife.model.User;
 import com.google.android.material.card.MaterialCardView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SelectTeamActivity extends AppCompatActivity {
 
     private static final String TAG = "SelectTeamActivity";
     private String selectedTeam = "";
+
+    private DatabaseReference mRankDBRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +39,6 @@ public class SelectTeamActivity extends AppCompatActivity {
         authentication.setActivity(this);
 
         final User user = authentication.getUserInfo();
-
 
         MaterialCardView beerImg = findViewById(R.id.card_beer);
         MaterialCardView wineImg = findViewById(R.id.card_wine);

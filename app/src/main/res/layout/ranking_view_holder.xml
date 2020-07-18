@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"/>
         <TextView
             android:id="@+id/rank_order"
-            android:text="N등 "
+            android:text=""
             android:textColor="@color/colorAccent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
