@@ -11,6 +11,18 @@ public class Post implements Parcelable {
     private String photoUrl;
     private String userName;
     private String teamName;
+    private String key;
+
+    public Post(){
+        //No-args Constructor Needed
+    }
+
+    public Post(String title, String content, String Url, String createdAt){
+        this.postName = title;
+        this.postContent = content;
+        this.photoUrl = Url;
+        this.createdAt = createdAt;
+    }
 
     protected Post(Parcel in) {
         postName = in.readString();
@@ -19,6 +31,7 @@ public class Post implements Parcelable {
         photoUrl = in.readString();
         userName = in.readString();
         teamName = in.readString();
+        key = in.readString();
     }
 
     @Override
@@ -29,6 +42,7 @@ public class Post implements Parcelable {
         dest.writeString(photoUrl);
         dest.writeString(userName);
         dest.writeString(teamName);
+        dest.writeString(key);
     }
 
     @Override
@@ -70,5 +84,13 @@ public class Post implements Parcelable {
 
     public String getTeamName() {
         return teamName;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 }
