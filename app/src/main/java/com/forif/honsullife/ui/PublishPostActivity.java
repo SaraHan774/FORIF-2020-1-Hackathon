@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
 
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -24,6 +26,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.airbnb.lottie.LottieDrawable;
+import com.airbnb.lottie.LottieImageAsset;
 import com.bumptech.glide.Glide;
 import com.forif.honsullife.R;
 import com.forif.honsullife.model.Post;
@@ -37,13 +42,18 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalTime;
 import java.util.Objects;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
@@ -57,11 +67,13 @@ public class PublishPostActivity extends AppCompatActivity implements View.OnCli
         private final String DIRECTORY = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/myCamera";
 
         //UI
+        private CoordinatorLayout mCoordinatorLayout;
         private ImageView mImageView;
         private EditText mTitle;
         private EditText mContent;
         private FloatingActionButton mUpload;
         private BottomAppBar mBottomAppBar;
+        private LottieAnimationView loading;
 
         //Storage & DB
         private StorageReference mStorageRef;
@@ -86,6 +98,9 @@ public class PublishPostActivity extends AppCompatActivity implements View.OnCli
                 mTitle = findViewById(R.id.et_publish_post_title);
                 mContent = findViewById(R.id.et_publish_post_content);
                 mUpload = findViewById(R.id.fab_publish_post);
+                loading = findViewById(R.id.loading_drunken_owl);
+                loading.bringToFront();
+                mCoordinatorLayout = findViewById(R.id.coordinator_layout);
 
                 //Security
                 ActivityCompat.requestPermissions(this,new String[]{CAMERA,WRITE_EXTERNAL_STORAGE},
@@ -152,7 +167,13 @@ public class PublishPostActivity extends AppCompatActivity implements View.OnCli
                                 .centerCrop()
                                 .into(mImageView);
                 } else if (requestCode == GET_CAMERA_IMAGE && requestCode == RESULT_OK && data != null && data.getData() != null){
-                        mImageUrl = data.getData();
+                        currentPhotoPath = data.getData().toString();
+                        mImageUrl = Uri.parse(currentPhotoPath);
+                        Glide.with(this)
+                                .load(mImageUrl)
+                                .centerCrop()
+                                .into(mImageView);
+
                 }
 
         }
@@ -166,22 +187,40 @@ public class PublishPostActivity extends AppCompatActivity implements View.OnCli
         }
 
         private void openCamera(){
-
-                String file = DIRECTORY + System.currentTimeMillis() + ".jpg";
-                File newFile = new File(file);
-
-                try{
-                        newFile.createNewFile();
-                } catch (Exception e){
-                        e.printStackTrace();
-                        Toast.makeText(this, "ERROR: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-
-                Uri outputFileUri = Uri.fromFile(newFile);
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT,outputFileUri);
-                //intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(intent,GET_CAMERA_IMAGE);
+
+                if(intent.resolveActivity(getPackageManager())!=null){
+                        File photoFile = null;
+
+                        try {
+                                photoFile = createImageFile();
+                        }catch (Exception e){
+                                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+
+                        if(photoFile != null){
+                                mImageUrl = FileProvider.getUriForFile(this,getPackageName(),photoFile);
+                                intent.putExtra(MediaStore.EXTRA_OUTPUT,mImageUrl);
+                                startActivityForResult(intent,GET_CAMERA_IMAGE);
+                        }
+                }
+        }
+
+        String currentPhotoPath;
+
+        private File createImageFile() throws IOException {
+                // Create an image file name
+                String imageFileName = "JPEG_" + System.currentTimeMillis() + "_";
+                File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+                File image = File.createTempFile(
+                        imageFileName,  /* prefix */
+                        ".jpg",         /* suffix */
+                        storageDir      /* directory */
+                );
+
+                // Save a file: path for use with ACTION_VIEW intents
+                currentPhotoPath = image.getAbsolutePath();
+                return image;
         }
 
         private void upload(){
@@ -202,6 +241,13 @@ public class PublishPostActivity extends AppCompatActivity implements View.OnCli
                                         final StorageReference storageRef = mStorageRef.child(fileName.trim());
 
                                         mUploadTask = storageRef.putFile(mImageUrl)
+                                                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                                                        @Override
+                                                        public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
+                                                                mCoordinatorLayout.setAlpha((float)0.8);
+                                                                loading.setVisibility(View.VISIBLE);
+                                                        }
+                                                })
                                                 .continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                                                         @Override
                                                         public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
