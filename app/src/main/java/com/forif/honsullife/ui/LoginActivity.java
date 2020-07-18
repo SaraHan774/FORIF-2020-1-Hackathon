@@ -16,6 +16,7 @@ import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.forif.honsullife.R;
 import com.forif.honsullife.auth.Authentication;
+import com.forif.honsullife.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -33,10 +34,15 @@ public class LoginActivity extends AppCompatActivity {
     public static final String USER_EMAIL_KEY = "user_email_key";
 
     private Button btnLogin;
+    private Authentication authentication;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        authentication = Authentication.getInstance();
+        authentication.setActivity(this);
 
         btnLogin = findViewById(R.id.btn_google_login);
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -76,9 +82,6 @@ public class LoginActivity extends AppCompatActivity {
                 + user.getEmail() + "\n"
                 + user.getPhotoUrl());
 
-                Authentication authentication = Authentication.getInstance();
-                authentication.setActivity(this);
-
                 if(user.getPhotoUrl() != null) {
                     authentication.saveUserInfo(
                             user.getDisplayName(),
@@ -91,14 +94,18 @@ public class LoginActivity extends AppCompatActivity {
                             user.getEmail()
                     );
                 }
-                Intent intent = new Intent(LoginActivity.this, SelectTeamActivity.class);
-                startActivity(intent);
-                finish();
+                navigateToTeamSelectionActivity();
             }else{
                 //failed
                 Log.d(TAG, "onActivityResult: " + response.getError().getErrorCode());
                 Toast.makeText(this, "구글 로그인 실패", Toast.LENGTH_SHORT);
             }
         }
+    }
+
+    private void navigateToTeamSelectionActivity(){
+        Intent intent = new Intent(LoginActivity.this, SelectTeamActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
