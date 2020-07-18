@@ -24,6 +24,15 @@ public class Post implements Parcelable {
         this.createdAt = createdAt;
     }
 
+    public Post(String postName, String postContent, String createdAt, String photoUrl, String userName, String teamName) {
+        this.postName = postName;
+        this.postContent = postContent;
+        this.createdAt = createdAt;
+        this.photoUrl = photoUrl;
+        this.userName = userName;
+        this.teamName = teamName;
+    }
+
     protected Post(Parcel in) {
         postName = in.readString();
         postContent = in.readString();

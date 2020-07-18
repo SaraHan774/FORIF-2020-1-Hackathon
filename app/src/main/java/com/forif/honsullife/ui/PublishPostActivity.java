@@ -31,7 +31,9 @@ import com.airbnb.lottie.LottieDrawable;
 import com.airbnb.lottie.LottieImageAsset;
 import com.bumptech.glide.Glide;
 import com.forif.honsullife.R;
+import com.forif.honsullife.auth.Authentication;
 import com.forif.honsullife.model.Post;
+import com.forif.honsullife.model.User;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -85,6 +87,9 @@ public class PublishPostActivity extends AppCompatActivity implements View.OnCli
         private Task<Uri> mUploadTask;
         private Toast mToast;
 
+        private String userName;
+        private String teamName;
+
         /*1. 사진 업로드
          * 2. 사진 제목 작성
          * 3. 사진 설명 작성
@@ -101,6 +106,20 @@ public class PublishPostActivity extends AppCompatActivity implements View.OnCli
                 loading = findViewById(R.id.loading_drunken_owl);
                 loading.bringToFront();
                 mCoordinatorLayout = findViewById(R.id.coordinator_layout);
+
+                //user info
+                Authentication authentication = Authentication.getInstance();
+                User user = authentication.getUserInfo();
+
+                if(user.getUserName().equals("Anonymous") ||
+                user.getUserName().isEmpty()){
+                        userName = user.getEmail().split("@")[0];
+                }else{
+                        userName = user.getUserName();
+                }
+                if(!user.getTeamName().isEmpty()){
+                        teamName = user.getTeamName();
+                }
 
                 //Security
                 ActivityCompat.requestPermissions(this,new String[]{CAMERA,WRITE_EXTERNAL_STORAGE},
@@ -231,7 +250,6 @@ public class PublishPostActivity extends AppCompatActivity implements View.OnCli
                 } else{
                         final String title = mTitle.getText().toString();
                         final String content = mContent.getText().toString();
-
                         final Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
                         if(title.trim().length() > 0 && content.trim().length() > 0){
@@ -265,7 +283,14 @@ public class PublishPostActivity extends AppCompatActivity implements View.OnCli
                                                                         String uploadId = mDBRef.push().getKey();
                                                                         Uri downloadId = task.getResult();
 
-                                                                        Post post = new Post(title,content,downloadId.toString(),timestamp.toString());
+                                                                        Post post = new Post(
+                                                                                title,
+                                                                                content,
+                                                                                timestamp.toString(),
+                                                                                downloadId.toString(),
+                                                                                userName,
+                                                                                teamName
+                                                                        );
                                                                         post.setKey(uploadId);
                                                                         mDBRef.child(uploadId).setValue(post);
                                                                 }

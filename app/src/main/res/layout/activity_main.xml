@@ -8,7 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-<ScrollView
+<androidx.core.widget.NestedScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
@@ -123,6 +123,7 @@
             <TextView
                 android:text="우리팀 포스트"
                 style="@style/TextAppearance.MaterialComponents.Headline6"
+                android:layout_marginBottom="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
@@ -134,6 +135,7 @@
             <TextView
                 android:text="다른팀 포스트"
                 android:layout_marginTop="24dp"
+                android:layout_marginBottom="16dp"
                 style="@style/TextAppearance.MaterialComponents.Headline6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
@@ -164,7 +166,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</ScrollView>
+</androidx.core.widget.NestedScrollView>
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

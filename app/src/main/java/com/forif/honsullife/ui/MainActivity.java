@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.forif.honsullife.R;
 import com.forif.honsullife.auth.Authentication;
+import com.forif.honsullife.model.OurRvAdapter;
 import com.forif.honsullife.model.User;
 import com.forif.honsullife.model.OtherRvAdapter;
 import com.forif.honsullife.model.Post;
@@ -58,6 +59,11 @@ public class MainActivity extends AppCompatActivity implements OtherRvAdapter.On
     private OtherRvAdapter othersAdapter;
     private List<Post> mPosts;
 
+    private String teamName;
+    private ArrayList<Post> ourTeamPostList = new ArrayList<>();
+    private OurRvAdapter ourRvAdapter;
+    private RecyclerView ourRecyclerView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,9 +85,10 @@ public class MainActivity extends AppCompatActivity implements OtherRvAdapter.On
         }else{
             tvUserName.setText(user.getUserName());
         }
-        tvUserTeam.setText(user.getTeamName());
+        teamName = user.getTeamName();
+        tvUserTeam.setText(teamName);
 
-        if(!user.getProfileUrl().isEmpty()
+        if(user.getProfileUrl() != null
         && !user.getProfileUrl().equals("")){
             Glide.with(this)
                     .load(user.getProfileUrl())
@@ -91,23 +98,16 @@ public class MainActivity extends AppCompatActivity implements OtherRvAdapter.On
         }
 
         ImageButton btnNavigateToRanking = findViewById(R.id.btn_ranking);
-        btnNavigateToRanking.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, RankingActivity.class);
-                startActivity(intent);
-            }
+        btnNavigateToRanking.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, RankingActivity.class);
+            startActivity(intent);
         });
 
         fabNavigateToPublish = findViewById(R.id.fab_navigate_to_publish_activity);
-        fabNavigateToPublish.setOnClickListener(new View.OnClickListener() {
+        fabNavigateToPublish.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, PublishPostActivity.class);
+            startActivityForResult(intent,POST);
 
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, PublishPostActivity.class);
-                startActivityForResult(intent,POST);
-
-            }
         });
 
         mStorage = FirebaseStorage.getInstance();
@@ -123,6 +123,11 @@ public class MainActivity extends AppCompatActivity implements OtherRvAdapter.On
         othersAdapter.setOnItemClickListener(this);
         othersRecyclerView.setAdapter(othersAdapter);
 
+        /*우리팀 리스트 */
+        ourRecyclerView = findViewById(R.id.rv_my_team_post_list);
+        filterOurTeamPosts((ArrayList<Post>) mPosts);
+
+
         mValueListener = mDBRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -130,9 +135,11 @@ public class MainActivity extends AppCompatActivity implements OtherRvAdapter.On
                 for(DataSnapshot postSnapshots : dataSnapshot.getChildren()){
                     Post curUpload = postSnapshots.getValue(Post.class);
                     mPosts.add(curUpload);
+                    filterOurTeamPosts((ArrayList<Post>) mPosts);
                 }
 
                 othersAdapter.notifyDataSetChanged();
+                ourRvAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -141,6 +148,33 @@ public class MainActivity extends AppCompatActivity implements OtherRvAdapter.On
             }
         });
 
+
+    }
+
+    private void filterOurTeamPosts(ArrayList<Post> postArrayList){
+        ArrayList<Post> ourTeamPostList = new ArrayList<>();
+
+        for (int i = 0; i < postArrayList.size(); i++) {
+            Post post = postArrayList.get(i);
+            if(post.getTeamName() == null){
+                continue;
+            }
+            Log.d(TAG, "filterOurTeamPosts: " + post.getTeamName());
+            Log.d(TAG, "filterOurTeamPosts: " + teamName);
+            if(post.getTeamName().equals(teamName)){
+                ourTeamPostList.add(post);
+                Log.d(TAG, "filterOurTeamPosts: 같은 것 추가");
+            }
+        }
+
+        ourRvAdapter = new OurRvAdapter(this, ourTeamPostList);
+        ourRecyclerView.setAdapter(ourRvAdapter);
+        ourRecyclerView.setHasFixedSize(true);
+        ourRecyclerView.setLayoutManager(
+                new LinearLayoutManager(this,
+                        LinearLayoutManager.HORIZONTAL,
+                        false)
+        );
     }
 
     @Override
