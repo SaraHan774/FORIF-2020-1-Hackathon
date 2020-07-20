@@ -4,6 +4,14 @@
 
 
 
+### App Logo 
+
+* Designed by 김은호 
+
+<img src="honsool_logo.jpg" alt="honsool_logo" style="zoom:33%;" />
+
+
+
 ## 스크린샷 및 시연 영상 
 
 ![My Post](my_post.png)
