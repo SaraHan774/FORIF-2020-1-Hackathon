@@ -1,10 +1,24 @@
 # FORIF-2020-1-Hackathon
 * Android 팀 해커톤 작품 - 혼술라이프 (Hon-Sool Life)
+* 개발자 : 임규민, 한가희, 김은호, 이강민, 환규님 
+
+
+
+## 스크린샷 및 시연 영상 
+
+![My Post](My Post.png)
+
+
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/WgFu_LUoCO8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
 
 ## 혼술라이프! 함께하면 더 즐겁다!
 
 ### 서비스 요약 
 **1. 사용자는 로그인 후에 자신의 혼술팀을 선택할 수 있다.(LoginActivity)**
+
   * 팀 종류 : 소주팀, 맥주팀, 칵테일팀, 위스키팀, 와인팀, 논알콜팀, 막걸리팀, 섞어팀 (총 8개)
 
 **2. 혼술팀을 선택한 후 사용자는 자신의 혼술 기록을 남길 수 있다.(PublishPostActivity)** 
@@ -14,6 +28,7 @@
     * 내용 글자제한 : 200자 
     * 사진은 1장만 
     
+
 **3. 사용자는 메인 화면(MainActivity)에서 다른팀이 작성한 포스트를 볼 수 있다.**
   * RecyclerView 에 카드 (ViewHolder : 사진과 작성자 이름, 사진 제목, 팀이름)
   * 카드 클릭하면 사용자가 작성한 내용이 나온다. (상단에 이미지, 제목, 닉네임 - 하단에 내용)
@@ -22,7 +37,7 @@
     * 로그아웃은 프로필 카드의 `로그아웃` 버튼을 클릭하면 된다. 
   * 메인 화면의 상단에는 자신의 팀이 작성한 포스트가 디스플레이된다. (Horizontal RecyclerView)
   * 하단에는 다른 팀들이 작성한 포스트들이 작성된 시간 순서대로 디스플레이된다. (Vertical RecyclerView)
-  
+
 **4. 사용자는 랭킹 화면(RankingActivity)에서 팀별 랭킹을 조회할 수 있다.**
   * 1등, 2등, 3등은 ViewPager 를 이용해서 보여주고, 나머지 팀들은 아래에 작은 리스트로 보여준다(?).
 팀을 선택하면 팀 랭킹이 올라간다. 
@@ -30,7 +45,7 @@
 ### UI Flow 
 
 ![UI-PICTURE](Screenshot_20200714-163837_Squid.jpg)
-  
+
 ### Data Modeling 
 * 유저가 포스트를 작성하면 아래와 같이 데이터가 저장된다. 
 ```
@@ -55,3 +70,4 @@
   }
 }
 ```
+
