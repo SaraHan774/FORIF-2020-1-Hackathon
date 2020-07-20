@@ -10,7 +10,9 @@
 
 
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/WgFu_LUoCO8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+#### 영상 
+
+* [Youtube 링크](https://youtu.be/WgFu_LUoCO8)
 
 
 
