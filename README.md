@@ -6,7 +6,7 @@
 
 ## 스크린샷 및 시연 영상 
 
-![My Post](My Post.png)
+![My Post](my_post.png)
 
 
 
